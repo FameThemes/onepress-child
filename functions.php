@@ -2,26 +2,32 @@
 /**
  * Enqueue child theme style
  */
-function onepress_child_theme_enqueue_styles() {
-    wp_enqueue_style( 'onepress-child-style', get_stylesheet_directory_uri() . '/style.css');
+add_action( 'wp_enqueue_scripts', 'onepress_child_enqueue_styles', 15 );
+function onepress_child_enqueue_styles() {
+    wp_enqueue_style( 'onepress-child-style', get_stylesheet_directory_uri() . '/style.css' );
 }
-add_action( 'wp_enqueue_scripts', 'onepress_child_theme_enqueue_styles', 11 );
 
 
 /**
- * Hook to order/add sections
+ * Hook to add custom section after about section
  *
  * @see wp-content/themes/onepress/template-frontpage.php
  */
-function add_my_custom_frontpage_section(){
+function add_my_custom_section(){
+    ?>
+    <section id="my_section" class="my_section section-padding onepage-section">
+        <div class="container">
+            <div class="section-title-area">
+                <h5 class="section-subtitle">My section subtitle</h5>
+                <h2 class="section-title">My section here</h2>
+                <div class="row">
+                    <!-- Your section content here, you can use bootstrap 4 elements :) -->
+                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere a, pede.</p>
 
-    // Here you can order your sections by order array below
-    $sections = array(
-        'hero', 'about', 'services', 'videolightbox', 'counter', 'team', 'news', 'contact', 'my_section'
-    );
-
-    foreach ( $sections as $section ){
-        get_template_part('section-parts/section', $section );
-    }
+                </div>
+            </div>
+        </div>
+    </section>
+    <?php
 }
-add_action( 'onepress_frontpage_section_parts', 'add_my_custom_frontpage_section' , 50 );
+add_action( 'onepress_after_section_about', 'add_my_custom_section'  );
